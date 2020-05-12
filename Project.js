@@ -117,7 +117,7 @@ var drawLines = function(majors,graph,target,xScale,y0Scale)
     
     var lines = 
         d3.select(target)
-        .select("#graph1")
+        //.select("#graph1")
         .selectAll("g")
         .data(majors)
         .enter()
