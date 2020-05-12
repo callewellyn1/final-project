@@ -68,6 +68,13 @@ var createAxes = function(screen,margins,graph,target,xScale,y0Scale,y1Scale)
         .attr("transform","translate("+margins.left+","
              +(margins.top+graph.height)+")")
         .call(xAxis)
+            d3.selectAll("text")
+            .attr("y", 0)
+            .attr("x", 9)
+            .attr("dy", ".35em")
+            .attr("transform", "rotate(90)")
+            .style("text-anchor", "start");
+    
     axes.append("g")
         .attr("transform","translate("+margins.left+","+(margins.top)+")")
         .call(y0Axis)
@@ -76,14 +83,14 @@ var createAxes = function(screen,margins,graph,target,xScale,y0Scale,y1Scale)
         .call(y1Axis)
 }
 
-var getUnemp = function(major)
+var getUnemp = function(majors)
 {
-    return major.Unemployment_rate
+    return majors.Unemployment_rate
 }
 
-var getMedian = function(major)
+var getMedian = function(majors)
 {
-    return major.Median
+    return majors.Median
 }
 
 var Majorlist = function(majors)
@@ -96,17 +103,20 @@ var Majormap = majors.Major.map(function(Majors)
  }
                     
 
-var drawLines = function(majors,graph,target,xScale,y0Scale,y1Scale)
+var drawLines = function(majors,graph,target,xScale,y0Scale)
 {
     var lineGenerator = d3.line()
-        .x(majors.map(function(major)
-        {
-        return major.Major;
-        }))
-        .y(y0Scale(majors.Unemployment_rate));
+        .x(function(majors, i)
+		   {
+			return xScale(i);
+		})
+        .y(function(majors)
+		   {
+			return y0Scale(getUnemp);
+		})
     
     var lines = 
-        d3.select("target")
+        d3.select(target)
         .select("#graph1")
         .selectAll("g")
         .data(majors)
@@ -116,7 +126,7 @@ var drawLines = function(majors,graph,target,xScale,y0Scale,y1Scale)
         .attr("fill","none")
         .attr("stroke",function(majors) 
         { 
-            return majors.Unemployment_rate;
+            return getUnemp;
         })
     }
 
@@ -126,7 +136,7 @@ var firstgraph = function(target, majors)
     var screen = {width:750, height:650};
     
     //how much space will be on each side of the graph
-    var margins = {top:25,bottom:40,left:70,right:15};
+    var margins = {top:25,bottom:250,left:70,right:15};
     
     //generated how much space the graph will take up
     var graph = 
@@ -172,9 +182,10 @@ var firstgraph = function(target, majors)
         .domain([0,maxMedian])
         .range([graph.height,0])
     
+    
     createLabels(screen,margins,graph,target)
     createAxes(screen,margins,graph,target,xScale,y0Scale, y1Scale);
-    drawLines(majors,graph,target,xScale,y0Scale,y1Scale)
+    drawLines(majors,graph,target,y0Scale)
     
     
 }
