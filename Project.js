@@ -86,21 +86,24 @@ var getMedian = function(major)
     return major.Median
 }
 
-
+var Majorlist = function(majors)
+{
+var Majormap = majors.Major.map(function(Majors)
+{
+    return Major
+})
+    return Majormap
+ }
                     
 
 var drawLines = function(majors,graph,target,xScale,y0Scale,y1Scale)
 {
     var lineGenerator = d3.line()
-        .x(function(majors) 
-            { 
-            return majors.Major;
-            })
-        .y(function(majors)   
-            { 
-            return y0Scale(majors.Unemployment_rate);
-            })
-
+        .x(majors.map(function(major)
+        {
+        return major.Major;
+        }))
+        .y(y0Scale(majors.Unemployment_rate));
     
     var lines = 
         d3.select("target")
@@ -145,21 +148,17 @@ var firstgraph = function(target, majors)
         .attr("transform","translate("+margins.left+","+
              margins.top+")");
     
-    var Majorlist = function(majors)
-    {
-    var Majormap = majors.Major.map(function(Majors)
-        {
-        return Major
-        })
-    
-    return Majormap
-    }
+
     
     //create scales for all of the dimensions
     var xScale = d3.scaleBand()
         .range([0,graph.width])
-        .domain(Majorlist)
+        .domain(majors.map(function(major)
+        {
+        return major.Major;
+        }))
         .padding(.4)
+       
     
     var maxUnemp = d3.max(majors, getUnemp)
     
