@@ -2,7 +2,7 @@ var majorPromise = d3.csv("project_use.csv");
 majorPromise.then(function(majors)
 {
     console.log("Major data",majors);
-   firstgraph("#graph1",majors);
+   firstgraph("#graph2",majors);
    
 },
 function(err)
@@ -71,6 +71,15 @@ var createAxes = function(screen,margins,graph,target,xScale,y0Scale,y1Scale)
 		.selectAll("text")
 		.style("text-anchor", "start")
 		.attr("transform", "rotate(45)")
+		
+	
+	
+    /*d3.selectAll("text")
+            .attr("y", 0)
+            .attr("x", 9)
+            .attr("dy", ".35em")
+            .attr("transform", "rotate(90)")
+            .style("text-anchor", "start");*/
     
     axes.append("g")
         .attr("transform","translate("+margins.left+","+(margins.top)+")")
@@ -90,51 +99,25 @@ var getMedian = function(majors)
     return majors.Cat_Median
 }
 
-
+/*var Majorlist = function(majors)
+{
+var Majormap = majors.Major.map(function(Majors)
+{
+    return Major
+})
+    return Majormap
+ }*/
                     
 var drawLines = function(majors,graph,target,xScale,y0Scale)
 {
 	
-    var lineGenerator = d3.line()
-        .x(function(major)
-		   {
-			return xScale(major.Category_Use)
-		})
-        .y(function(major)
-		   {
-			return y0Scale(major.Cat_Unemp);
-		})
-    
-	
-	   d3.select(target)
-        .select(".graph")
-		.append("path")
-		.attr("fill","none")
-        .attr("stroke","red")
-		.datum(majors)
-		.attr("d",lineGenerator)
 	
     }
 
 var drawLines2 = function(majors,graph,target,xScale,y1Scale)
 {
-	    var lineGenerator2 = d3.line()
-        .x(function(major)
-		   {
-			return xScale(major.Category_Use)
-		})
-        .y(function(major)
-		   {
-			return y1Scale(major.Cat_Median);
-		})
-		
-		d3.select(target)
-        .select(".graph")
-		.append("path")
-		.attr("fill","none")
-        .attr("stroke","green")
-		.datum(majors)
-		.attr("d",lineGenerator2)
+
+	
 	
     }
 var firstgraph = function(target, majors)
@@ -160,7 +143,6 @@ var firstgraph = function(target, majors)
     
     //create a group for the graph
     var g = d3.select(target)
-		.select(".graph")
         .append("g")
         .classed("graph",true)
         .attr("transform","translate("+margins.left+","+
@@ -191,11 +173,10 @@ var firstgraph = function(target, majors)
         .range([graph.height,0])
     
     
-    createLabels(screen,margins,graph,target);
+    createLabels(screen,margins,graph,target)
     createAxes(screen,margins,graph,target,xScale,y0Scale, y1Scale);
-    drawLines(majors,graph,target,xScale,y0Scale);
-	drawLines2(majors,graph,target,xScale,y1Scale);
+    drawLines(majors,graph,target,xScale,y0Scale)
+	drawLines2(majors,graph,target,xScale,y1Scale)
     
     
 }
-
