@@ -21,19 +21,19 @@ var createLabels = function(screen,margins,graph,target)
             .append("g")
             .classed("labels",true)
     
-    labels.append("text")
+    /*labels.append("text")
         .text("College Majors...")
         .classed("title",true)
         .attr("text-anchor","middle")
         .attr("xAxis",margins.left+(graph.width/2))
-        .attr("y0Axis",margins.top)
+        .attr("y0Axis",margins.top)*/
     
-    labels.append("text")
+    /*labels.append("text")
         .text("College Major")
         .classed("label",true)
         .attr("text-anchor","middle")
         .attr("xAxis",margins.left+(graph.width/2))
-        .attr("y0Axis",screen.height)
+        .attr("y0Axis",screen.height)*/
     
     labels.append("g")
         .attr("transform","translate(20, "+(margins.top+(graph.height/2))+")")
@@ -113,8 +113,35 @@ var drawLines = function(majors,graph,target,xScale,y0Scale)
         .attr("stroke","red")
 		.datum(majors)
 		.attr("d",lineGenerator)
-	
-    }
+    
+  /*want to make a circle that follows the mouse too 
+  d3.select(target)
+        .select(".graph")
+        .append("circle") 
+        .attr("class", "y")
+        .style("fill", "none") 
+        .style("stroke", "blue")
+        .attr("r", 4)
+*/
+
+    .on("mouseover", function(major)
+       {var xPosition = d3.event.pageX;
+        var yPosition = d3.event.pageY;
+            d3.select("#tooltip")
+                .style("right", xPosition + "px")
+                .style("top", yPosition+ "px")
+                .select("#value")
+    ///???           .text()
+                
+        d3.select("#tooltip").classed("hidden",false)
+        
+       }) 
+    
+    .on("mouseout", function()
+       {
+        d3.select("#tooltip").classed("hidden",true)
+       })
+}
 
 var drawLines2 = function(majors,graph,target,xScale,y1Scale)
 {
@@ -135,7 +162,25 @@ var drawLines2 = function(majors,graph,target,xScale,y1Scale)
         .attr("stroke","green")
 		.datum(majors)
 		.attr("d",lineGenerator2)
-	
+    
+    .on("mouseover", function(major)
+       {var xPosition = d3.event.pageX;
+        var yPosition = d3.event.pageY;
+            d3.select("#tooltip")
+                .style("right", xPosition + "px")
+                .style("top", yPosition+ "px")
+                .select("#value")
+    ///???            .text()
+                
+        d3.select("#tooltip").classed("hidden",false)
+        
+       }) 
+    
+    .on("mouseout", function()
+       {
+        d3.select("#tooltip").classed("hidden",true)
+       })
+
     }
 var firstgraph = function(target, majors)
 {
@@ -160,7 +205,6 @@ var firstgraph = function(target, majors)
     
     //create a group for the graph
     var g = d3.select(target)
-		.select(".graph")
         .append("g")
         .classed("graph",true)
         .attr("transform","translate("+margins.left+","+

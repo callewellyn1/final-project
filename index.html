@@ -2,11 +2,22 @@
     <head>
         <h1>Hi</h1>
     <script src="https://d3js.org/d3.v5.min.js"></script>
-   
+    <link href="Project.css" rel="stylesheet" type="text/css">
     </head>
+<body>
+    <button id="EarnersHigh">Sort By Highest Earners</button>
+    <button id="EarnersLow">Sort By Lowest Earners</button>
+    <button id="EmployedHigh">Sort By Lowest Unemployment</button>
+    <button id="EmployedLow">Sort By Highest Unemployment</button>
+
 <div> 
     <svg id="graph1"></svg>
      <script src = "Project.js"></script>
 </div>
-
+    
+<div id="tooltip" class="hidden">
+    <p><span id="value"></span></p>
+</div>
+    
+</body>
 </html>
