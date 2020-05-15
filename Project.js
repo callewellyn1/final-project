@@ -1,8 +1,23 @@
+var sortbyProperty = function(property)
+    {
+        return function(a,b)
+        {
+            if(a[property] == b[property])
+                {return 0}
+            else if (a[property] < b[property])
+                {return 1}
+            else
+                {return -1}
+        }
+    }
+
 var majorPromise = d3.csv("project_use.csv");
 majorPromise.then(function(majors)
 {
     console.log("Major data",majors);
-   firstgraph("#graph1",majors);
+    majors.sort(sortbyProperty("property"))
+    firstgraph("#graph1",majors);
+    
    
 },
 function(err)
@@ -114,15 +129,17 @@ var drawLines = function(majors,graph,target,xScale,y0Scale)
 		.datum(majors)
 		.attr("d",lineGenerator)
     
-  /*want to make a circle that follows the mouse too 
-  d3.select(target)
+    
+
+ // want to make a circle that follows the mouse too 
+  /*d3.select(target)
         .select(".graph")
         .append("circle") 
         .attr("class", "y")
         .style("fill", "none") 
         .style("stroke", "blue")
-        .attr("r", 4)
-*/
+        .attr("r", 4)*/
+
 
     .on("mouseover", function(major)
        {var xPosition = d3.event.pageX;
@@ -162,6 +179,9 @@ var drawLines2 = function(majors,graph,target,xScale,y1Scale)
         .attr("stroke","green")
 		.datum(majors)
 		.attr("d",lineGenerator2)
+    
+
+    
     
     .on("mouseover", function(major)
        {var xPosition = d3.event.pageX;
@@ -240,6 +260,78 @@ var firstgraph = function(target, majors)
     drawLines(majors,graph,target,xScale,y0Scale);
 	drawLines2(majors,graph,target,xScale,y1Scale);
     
+    d3.select("#EarnersHigh").on("click", function()
+        {
+        sortEarnersHigh()
+    })
+                                 
+    d3.select("#EarnersLow").on("click", function()
+        {
+
+    })
+    d3.select("#EmployedHigh").on("click", function()
+        {
+
+    })
+    d3.select("#EmployedLow").on("click", function()
+        {
+
+    })
+    
+    
+    var sortEarnersHigh = function() {
+         d3.select("path")
+         .sort(function(a, b) {
+         return d3.ascending(a, b);
+         })
+         .transition()
+         .duration(1000)
+         .attr("x", function(d, i) {
+         return xScale(i);
+         })
+        }
+
+    var sortEarnersLow = function() {
+         d3.select("path")
+         .sort(function(a, b) {
+         return d3.decending(a, b);
+         })
+         .transition()
+         .duration(1000)
+         .attr("x", function(d, i) {
+         return xScale(i);
+         })
+        }
+    
+    var sortEarnersHigh = function() {
+         d3.select("path")
+         .sort(function(a, b) {
+         return d3.ascending(a, b);
+         })
+         .transition()
+         .duration(1000)
+         .attr("x", function(d, i) {
+         return xScale(i);
+         })
+        }
+
+    var sortEarnersHigh = function() {
+         d3.select("path")
+         .sort(function(a, b) {
+         return d3.ascending(a, b);
+         })
+         .transition()
+         .duration(1000)
+         .attr("x", function(d, i) {
+         return xScale(i);
+         })
+        }
+    
+    
+    
     
 }
+    
 
+
+                                 
